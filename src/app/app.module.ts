@@ -17,22 +17,18 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCardModule } from '@angular/material/card';
 import { MatNativeDateModule } from '@angular/material/core';
+// import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     CommonModule,
     AppRoutingModule,
     BrowserAnimationsModule,
 
-
     MatToolbarModule,
     MatIconModule,
-
-
 
     EmployeeRoutingModule,
     ReactiveFormsModule,
@@ -46,8 +42,9 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatCardModule,
     MatNativeDateModule,
 
+    // NgChartsModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

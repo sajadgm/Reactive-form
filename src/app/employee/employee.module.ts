@@ -14,41 +14,33 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatDialogModule} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
+// import { NgChartsModule } from 'ng2-charts';
 import { ChartComponent } from './chart/chart.component';
 
-
 const modules = [
-
   CommonModule,
-    EmployeeRoutingModule,
-    ReactiveFormsModule,
-    FormsModule,
-    MatRadioModule,
-    MatTableModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatDatepickerModule,
-    MatCardModule,
-    MatNativeDateModule,
-    MatIconModule,
-    MatToolbarModule,
-    MatDialogModule,
-
-]
-
-
-
+  EmployeeRoutingModule,
+  ReactiveFormsModule,
+  FormsModule,
+  MatRadioModule,
+  MatTableModule,
+  MatButtonModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatDatepickerModule,
+  MatCardModule,
+  MatNativeDateModule,
+  MatIconModule,
+  MatToolbarModule,
+  MatDialogModule,
+  // NgChartsModule,
+];
 
 @NgModule({
-  declarations: [
-    ListComponent,
-    AddComponent,
-    ChartComponent
-  ],
+  declarations: [ListComponent, AddComponent, ChartComponent],
   imports: modules,
-  providers:[]
+  providers: [],
 })
-export class EmployeeModule { }
+export class EmployeeModule {}
