@@ -1,0 +1,52 @@
+<div class="table-container">
+
+  <div class="new-button">
+    <button mat-raised-button color="primary" (click)="addButton()">Add New</button>
+  </div>
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="LastName">
+      <th mat-header-cell *matHeaderCellDef>LastName </th>
+      <td mat-cell *matCellDef="let element"> {{element.LastName}} </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="Job">
+      <th mat-header-cell *matHeaderCellDef> Job </th>
+      <td mat-cell *matCellDef="let element"> {{element.Job}} </td>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="HireDate">
+      <th mat-header-cell *matHeaderCellDef> HireDate </th>
+      <td mat-cell *matCellDef="let element"> {{element.HireDate | date  : 'shortDate' }} </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="Role">
+      <th mat-header-cell *matHeaderCellDef> Role </th>
+      <td mat-cell *matCellDef="let element"> {{element.Role}} </td>
+      <td><mat-icon>edit</mat-icon></td>
+    </ng-container>
+
+  <ng-container matColumnDef="Action">
+    <th mat-header-cell *matHeaderCellDef>Actions</th>
+    <td class="table-actions-td" mat-cell *matCellDef="let row">
+      <button mat-stroked-button color="primary" (click)="editeButton(row)">
+        <mat-icon class="mat-icons">edit</mat-icon>
+      </button>
+      <button mat-raised-button color="warn" (click)="removeButton(row.ID)">
+        <mat-icon class="mat-icons">restore_from_trash</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>
+

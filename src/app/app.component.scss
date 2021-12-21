@@ -1,0 +1,31 @@
+.content {
+  box-sizing: border-box;
+  margin: 0 auto;
+  width: 80%;
+}
+
+.toolbar {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0 auto;
+}
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.menu-items {
+  display: flex;
+  flex-direction: row;
+  padding-left: 0;
+  > li {
+    list-style: none;
+    margin-right: 10px;
+    :hover {
+      color: rgb(255 215 64);
+    }
+  }
+  a {
+    text-decoration: none;
+    color: white;
+  }
+}

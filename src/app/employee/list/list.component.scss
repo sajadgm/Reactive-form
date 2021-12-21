@@ -1,0 +1,15 @@
+.table-container {
+  > table {
+    margin: 1rem auto;
+    width: 100%;
+    height: auto;
+  }
+}
+
+.new-button {
+  margin-top: 10px;
+  display: flex;
+  > button {
+    margin-left: auto;
+  }
+}
