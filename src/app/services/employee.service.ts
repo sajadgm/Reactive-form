@@ -1,4 +1,3 @@
-import { ISettings } from './../interfaces/settings.interface';
 import { IEmployee } from './../interfaces/employee.interface';
 import { Injectable } from '@angular/core';
 

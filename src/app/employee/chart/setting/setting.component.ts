@@ -1,14 +1,7 @@
-import { ISettings } from './../../../interfaces/settings.interface';
+import { ITask } from './../../../interfaces/settings.interface';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
-
-export interface Task {
-  name: string;
-  completed: boolean;
-  color: ThemePalette;
-  subtasks?: Task[];
-}
 
 @Component({
   selector: 'app-setting',
@@ -16,7 +9,7 @@ export interface Task {
   styleUrls: ['./setting.component.scss'],
 })
 export class SettingComponent implements OnInit {
-  task: Task = {
+  task: ITask = {
     name: 'All',
     completed: false,
     color: 'primary',
@@ -29,7 +22,9 @@ export class SettingComponent implements OnInit {
 
   allComplete: boolean = false;
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(this.task.subtasks);
+  }
 
   updateAllComplete() {
     this.allComplete =
@@ -52,6 +47,8 @@ export class SettingComponent implements OnInit {
     if (this.task.subtasks == null) {
       return;
     }
+    console.log(this.task.subtasks);
+
     this.task.subtasks.forEach((t) => (t.completed = completed));
   }
 }

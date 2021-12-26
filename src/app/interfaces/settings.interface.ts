@@ -1,5 +1,6 @@
-export interface ISettings {
-  freeLabel: boolean;
-  busyLabel: boolean;
-  chartVisibility: boolean;
+export interface ITask {
+  name: string;
+  completed: boolean;
+  color: string;
+  subtasks?: ITask[];
 }
