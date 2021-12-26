@@ -18,6 +18,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 // import { NgChartsModule } from 'ng2-charts';
 import { ChartComponent } from './chart/chart.component';
+import { SettingComponent } from './chart/setting/setting.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 const modules = [
   CommonModule,
@@ -35,11 +37,11 @@ const modules = [
   MatIconModule,
   MatToolbarModule,
   MatDialogModule,
-  // NgChartsModule,
+  MatCheckboxModule, // NgChartsModule,
 ];
 
 @NgModule({
-  declarations: [ListComponent, AddComponent, ChartComponent],
+  declarations: [ListComponent, AddComponent, ChartComponent, SettingComponent],
   imports: modules,
   providers: [],
 })
