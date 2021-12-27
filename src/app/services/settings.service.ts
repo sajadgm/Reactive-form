@@ -9,10 +9,26 @@ export class SettingsService {
     name: 'Show All',
     completed: true,
     color: 'primary',
+    id: 'All',
     subtasks: [
-      { name: 'Free Employee Label', completed: true, color: 'primary' },
-      { name: 'Busy Employee Label', completed: true, color: 'accent' },
-      { name: 'Chart ', completed: true, color: 'warn' },
+      {
+        name: 'Free Employee Label',
+        id: 'free',
+        completed: true,
+        color: 'primary',
+      },
+      {
+        name: 'Busy Employee Label',
+        id: 'busy',
+        completed: true,
+        color: 'accent',
+      },
+      {
+        name: 'Chart',
+        id: 'chart',
+        completed: true,
+        color: 'warn',
+      },
     ],
   };
   constructor() {}

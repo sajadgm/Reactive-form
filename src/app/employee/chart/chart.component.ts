@@ -1,12 +1,7 @@
-import {
-  AfterViewChecked,
-  AfterViewInit,
-  Component,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
-import { Chart, registerables, ChartDataset } from 'chart.js';
+import { ITask } from './../../interfaces/settings.interface';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Chart, registerables } from 'chart.js';
+import { SettingsService } from 'src/app/services/settings.service';
 
 @Component({
   selector: 'app-chart',
@@ -14,14 +9,18 @@ import { Chart, registerables, ChartDataset } from 'chart.js';
   styleUrls: ['./chart.component.scss'],
 })
 export class ChartComponent implements OnInit, OnDestroy {
-  title = 'true';
-
   time = new Date();
   // rxTime = new Date();
   intervalId: any;
   subscription: any;
 
+  // mySettings!: ITask;
+  freeLabelVisibility!: boolean;
+  busyLabelVisibility!: boolean;
+  ChartVisibility!: boolean;
+
   result: any;
+
   freeEmployees: number[] = [
     Math.floor(Math.random() * 100),
     Math.floor(Math.random() * 100),
@@ -36,8 +35,6 @@ export class ChartComponent implements OnInit, OnDestroy {
     Math.floor(Math.random() * 100),
     Math.floor(Math.random() * 100),
   ];
-  freeEmbgColor!: string;
-  busyEmbgColor!: string;
   chartLabels: any[] = [
     this.time.toLocaleTimeString(),
     this.time.toLocaleTimeString(),
@@ -45,9 +42,13 @@ export class ChartComponent implements OnInit, OnDestroy {
     this.time.toLocaleTimeString(),
     this.time.toLocaleTimeString(),
   ];
+  freeEmbgColor!: string;
+  busyEmbgColor!: string;
+
   chart: any = [];
 
-  constructor() {
+  constructor(private _settingService: SettingsService) {
+    //config
     Chart.register(...registerables);
     setInterval(() => {
       this.time = new Date();
@@ -55,13 +56,25 @@ export class ChartComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // this.coinName.push(this.time.toLocaleTimeString());
+    this.ShowChart();
 
-    // this.service.criptoData().then((res) => {
-    //   this.result = res;
-    //   console.log(this.result);
-
-    // });
+    // set setting
+    this._settingService.task.subtasks?.map((item) => {
+      switch (item.id) {
+        case 'chart':
+          this.ChartVisibility = item.completed;
+          if (!item.completed) {
+            this.chart.destroy();
+          }
+          break;
+        case 'free':
+          this.freeLabelVisibility = item.completed;
+          break;
+        case 'busy':
+          this.busyLabelVisibility = item.completed;
+          break;
+      }
+    });
 
     this.intervalId = setInterval(() => {
       this.time = new Date();
@@ -81,6 +94,9 @@ export class ChartComponent implements OnInit, OnDestroy {
     //   });
 
     //show chart data
+  }
+
+  ShowChart() {
     this.chart = new Chart('canvas', {
       type: 'line',
       data: {
@@ -118,8 +134,15 @@ export class ChartComponent implements OnInit, OnDestroy {
     this.freeEmployees.shift();
     this.busyEmployees.shift();
 
-    this.chart.update();
+    //نمیشد برای canvas
+    //از
+    //ng-if استفاده کنیم
+    //ارور چرتی میداد
+    if (this.ChartVisibility) {
+      this.chart.update();
+    }
   }
+
   handleChartDataBgColor(): void {
     let calcNum = this.freeEmployees[this.freeEmployees.length - 1];
     if (calcNum <= 100 && calcNum >= 70) {
@@ -142,9 +165,10 @@ export class ChartComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     clearInterval(this.intervalId);
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-      this.chart.destroy();
-    }
+    //در صورت استفاده از  rxjs timer
+    // if (this.subscription) {
+    //   this.subscription.unsubscribe();
+    // }
+    this.chart.destroy();
   }
 }

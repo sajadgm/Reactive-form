@@ -1,18 +1,20 @@
-<div style="width: 400px; height: 400px;display: flex; flex-direction: row;">
-  <canvas id="canvas"
+<div style="width: 600px; height: 600px;display: flex; flex-direction: row; flex-wrap: wrap;margin-top: 1rem;">
 
-  >{{chart}}</canvas>
+  <span style="width: 400px; height: 400px">
+
+    <canvas  id="canvas"
+    >{{chart}}
+    </canvas>
+  </span >
 
   <div>
-<mat-card [style]="{'background-color': freeEmbgColor }" class="chart-labels">free Employees <br> <b>{{freeEmployees[this.freeEmployees.length - 1]}}</b></mat-card>
-<mat-card [style]="{'background-color': busyEmbgColor }" class="chart-labels">busy Employees <br> <b>{{busyEmployees[this.busyEmployees.length - 1]}}</b></mat-card>
-
+    <mat-card *ngIf="freeLabelVisibility"  [style]="{'background-color': freeEmbgColor }" class="chart-labels">free Employees <br> <b>{{freeEmployees[this.freeEmployees.length - 1]}}</b></mat-card>
+    <mat-card *ngIf="busyLabelVisibility"  [style]="{'background-color': busyEmbgColor }" class="chart-labels">busy Employees <br> <b>{{busyEmployees[this.busyEmployees.length - 1]}}</b></mat-card>
   </div>
 </div>
-
 <div>
   Clock:
   <div>{{ time | date: 'hh:mm:ss a' }}</div>
+</div>
   <!-- RxJS Clock: -->
   <!-- <div>{{ rxTime | date: 'hh:mm:ss a' }}</div> -->
-</div>
