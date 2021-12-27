@@ -1,7 +1,8 @@
 import { ITask } from './../../../interfaces/settings.interface';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { ThemePalette } from '@angular/material/core';
+// import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+// import { ThemePalette } from '@angular/material/core';
+import { SettingsService } from 'src/app/services/settings.service';
 
 @Component({
   selector: 'app-setting',
@@ -9,46 +10,40 @@ import { ThemePalette } from '@angular/material/core';
   styleUrls: ['./setting.component.scss'],
 })
 export class SettingComponent implements OnInit {
-  task: ITask = {
-    name: 'All',
-    completed: false,
-    color: 'primary',
-    subtasks: [
-      { name: 'Free Employee Label', completed: false, color: 'primary' },
-      { name: 'Busy Employee Label', completed: false, color: 'accent' },
-      { name: 'Chart ', completed: false, color: 'warn' },
-    ],
-  };
+  task!: ITask;
+  allComplete!: boolean;
 
-  allComplete: boolean = false;
+  constructor(private _settingService: SettingsService) {}
 
   ngOnInit(): void {
-    console.log(this.task.subtasks);
+    //get Data
+    this.task = this._settingService.task;
+    // this.task.subtasks = this._settingService.task.subtasks;
+    this.allComplete = this._settingService.task.completed;
+    // console.log(this.task.subtasks);
   }
 
   updateAllComplete() {
     this.allComplete =
       this.task.subtasks != null &&
       this.task.subtasks.every((t) => t.completed);
+    this._settingService.update(this.allComplete);
   }
 
   someComplete(): boolean {
-    if (this.task.subtasks == null) {
+    // not required
+    // only show some status for Show ALL Checkbox
+    //indeterminate dar html tarif shode baraye in method ke dar azaman load checkbox ha update mishavad
+    if (this._settingService.task.subtasks == null) {
       return false;
     }
     return (
-      this.task.subtasks.filter((t) => t.completed).length > 0 &&
-      !this.allComplete
+      this._settingService.task.subtasks.filter((t) => t.completed).length >
+        0 && !this.task.completed
     );
   }
 
   setAll(completed: boolean) {
-    this.allComplete = completed;
-    if (this.task.subtasks == null) {
-      return;
-    }
-    console.log(this.task.subtasks);
-
-    this.task.subtasks.forEach((t) => (t.completed = completed));
+    this._settingService.setAll(completed);
   }
 }

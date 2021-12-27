@@ -1,13 +1,19 @@
-<section class="example-section">
-<h3>Customize Your Settings</h3>
-</section>
+<mat-card class="example-card">
 
+  <mat-card-title>
+    <section class="example-section">
+    <h3>Customize Your Chart Settings</h3>
+    </section>
+  </mat-card-title>
 <section class="example-section">
   <span class="example-list-section">
-    <mat-checkbox class="example-margin" [checked]="allComplete" [color]="task.color" [indeterminate]="someComplete()"
+    <mat-checkbox class="example-margin" [checked]="allComplete" [color]="task.color"
+    [indeterminate]="someComplete()"
       (change)="setAll($event.checked)">
       {{task.name}}
     </mat-checkbox>
+<hr/>
+
   </span>
   <span class="example-list-section">
     <ul>
@@ -19,16 +25,4 @@
     </ul>
   </span>
 </section>
-
-
-
-<!--
-<div>
-  <h4>Chart Settings</h4>
-  <form style="display: flex;flex-direction: column;" (submit)="ChangeSettings()">
-    <mat-checkbox>Hide Free Label</mat-checkbox>
-    <mat-checkbox [formControl]="hideRequiredControl">Hide Busy Label</mat-checkbox>
-    <mat-checkbox [formControl]="hideRequiredControl">Hide Chart </mat-checkbox>
-    <button mat-raised-button color="primary" style="width: 50%;">Save changes</button>
-  </form>
-</div> -->
+</mat-card>

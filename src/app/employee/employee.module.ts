@@ -20,6 +20,7 @@ import { CommonModule } from '@angular/common';
 import { ChartComponent } from './chart/chart.component';
 import { SettingComponent } from './chart/setting/setting.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { SettingsService } from '../services/settings.service';
 
 const modules = [
   CommonModule,
