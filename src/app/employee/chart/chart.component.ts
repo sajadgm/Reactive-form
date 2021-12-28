@@ -14,7 +14,6 @@ export class ChartComponent implements OnInit, OnDestroy {
   intervalId: any;
   subscription: any;
 
-  // mySettings!: ITask;
   freeLabelVisibility!: boolean;
   busyLabelVisibility!: boolean;
   ChartVisibility!: boolean;
@@ -92,8 +91,6 @@ export class ChartComponent implements OnInit, OnDestroy {
     //     this.rxTime = time;
     //     // console.log(time.toLocaleTimeString());
     //   });
-
-    //show chart data
   }
 
   ShowChart() {
