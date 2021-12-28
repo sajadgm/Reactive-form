@@ -3,6 +3,7 @@ import { IEmployee } from './../../interfaces/employee.interface';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-add',
@@ -42,13 +43,15 @@ export class AddComponent implements OnInit {
       }
     });
 
+    console.log(this.data);
+
     //وجود دیتا برای ویرایش
     if (this.data) {
       this.profileForm = this.formBuilder.group({
         ID: [this.data.ID],
         LastName: [this.data.LastName, Validators.required],
         Job: [this.data.Job, Validators.required],
-        HireDate: [this.data.HireDate, Validators.required],
+        HireDate: [new Date(this.data.HireDate), Validators.required],
         Role: [this.data.Role, Validators.required],
       });
     }
