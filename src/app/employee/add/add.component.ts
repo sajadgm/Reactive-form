@@ -1,9 +1,7 @@
-import { EmployeeService } from './../../services/employee.service';
 import { IEmployee } from './../../interfaces/employee.interface';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import * as moment from 'moment';
 
 @Component({
   selector: 'app-add',
@@ -17,7 +15,6 @@ export class AddComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private dialog: MatDialogRef<AddComponent>,
-    private EmService: EmployeeService,
     @Inject(MAT_DIALOG_DATA) public data: IEmployee
   ) {}
 
