@@ -55,14 +55,7 @@ export class AddComponent implements OnInit {
   }
 
   saveForm(): void {
-    // بستن
-
-    // if (this.profileForm.valid) {
-    //   if (this.profileForm.value.ID !== null) {
-    //     this.dialog.close([this.profileForm.value]); //بدون آیدی برای ادد
-    //   }
     this.dialog.close([this.profileForm.value, this.profileForm.value.ID]); //arg 1 = Value , arg 2 = ID
-    // }
   }
 
   dismiss(): void {
