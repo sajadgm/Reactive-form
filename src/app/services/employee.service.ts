@@ -31,14 +31,15 @@ export class EmployeeService {
 
   constructor() {}
 
-  add(newEm: IEmployee) {
+  add(newEm: IEmployee[]) {
+    let newVal = newEm[0];
     return new Promise((resolver, reject) => {
       // add new user
       let data = this.ELEMENT_DATA;
-      newEm.ID = data.length + 1;
-      data.push(newEm);
+      newVal.ID = data.length + 1;
+      data.push(newVal);
       this.ELEMENT_DATA = data;
-      resolver(newEm);
+      resolver(newVal);
       reject('somthing is wrong');
     });
   }
@@ -47,10 +48,11 @@ export class EmployeeService {
     //index 0 is user new data from form
     //index 1 is id of that user
     return new Promise((resolver, reject) => {
-      let user = userData[0];
+      let user = userData[0]; // user data
 
       let data = this.ELEMENT_DATA.map((item, index) => {
         if (item.ID === userData[1]) {
+          //user Id
           item = {
             ID: userData[1],
             LastName: user.LastName,

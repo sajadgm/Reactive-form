@@ -2,70 +2,70 @@ import { EmployeeService } from './../../services/employee.service';
 import { IEmployee } from './../../interfaces/employee.interface';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import {  MatDialogRef , MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-add',
   templateUrl: './add.component.html',
-  styleUrls: ['./add.component.scss']
+  styleUrls: ['./add.component.scss'],
 })
 export class AddComponent implements OnInit {
+  newEmployee!: IEmployee;
 
-  newEmployee!:IEmployee
-
-  profileForm!: FormGroup
+  profileForm!: FormGroup;
   constructor(
-    private formBuilder : FormBuilder,
-    private dialog : MatDialogRef<AddComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: IEmployee,
-  ) { }
-
-
-
+    private formBuilder: FormBuilder,
+    private dialog: MatDialogRef<AddComponent>,
+    private EmService: EmployeeService,
+    @Inject(MAT_DIALOG_DATA) public data: IEmployee
+  ) {}
 
   ngOnInit(): void {
+    //ساخت یک فرم
+    // let newEmId = this.EmService.ELEMENT_DATA.length; //تعیین آیدی کاربر جدید
     this.profileForm = this.formBuilder.group({
-        ID : [],
-        LastName:['',Validators.required],
-        Job:['',Validators.required],
-        HireDate:['',Validators.required],
-        Role:['',Validators.required],
-      })
+      ID: [],
+      LastName: ['', Validators.required],
+      Job: ['', Validators.required],
+      HireDate: ['', Validators.required],
+      Role: ['', Validators.required],
+    });
 
     //تغییر ولیدیتور ها برای هر سلکت ها
-    this.profileForm.get('Role')?.valueChanges.subscribe(response =>{
+    this.profileForm.get('Role')?.valueChanges.subscribe((response) => {
       if (response === 'guest') {
         this.profileForm.get('Job')?.clearValidators();
         this.profileForm.get('Job')?.updateValueAndValidity();
-      }else{
+      } else {
         this.profileForm.get('Job')?.setValidators(Validators.required);
         this.profileForm.get('Job')?.updateValueAndValidity();
-
       }
-    })
+    });
 
-    if(this.data){
+    //وجود دیتا برای ویرایش
+    if (this.data) {
       this.profileForm = this.formBuilder.group({
-        ID:[],
-        LastName:[this.data.LastName, Validators.required],
-        Job:[this.data.Job , Validators.required],
-        HireDate:[ this.data.HireDate , Validators.required],
-        Role: [this.data.Role , Validators.required],
-      })
+        ID: [this.data.ID],
+        LastName: [this.data.LastName, Validators.required],
+        Job: [this.data.Job, Validators.required],
+        HireDate: [this.data.HireDate, Validators.required],
+        Role: [this.data.Role, Validators.required],
+      });
     }
   }
 
+  saveForm(): void {
+    // بستن
 
-
-  saveForm():void{
-    if(this.profileForm.valid){
-      this.dialog.close([this.profileForm.value,this.data.ID])
-    }
-
-    // this.dialog.close(form)
+    // if (this.profileForm.valid) {
+    //   if (this.profileForm.value.ID !== null) {
+    //     this.dialog.close([this.profileForm.value]); //بدون آیدی برای ادد
+    //   }
+    this.dialog.close([this.profileForm.value, this.profileForm.value.ID]); //arg 1 = Value , arg 2 = ID
+    // }
   }
 
-  dismiss() : void{
-    this.dialog.close(null)
+  dismiss(): void {
+    this.dialog.close(null);
   }
 }
