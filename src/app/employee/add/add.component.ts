@@ -43,8 +43,6 @@ export class AddComponent implements OnInit {
       }
     });
 
-    console.log(this.data);
-
     //وجود دیتا برای ویرایش
     if (this.data) {
       this.profileForm = this.formBuilder.group({
