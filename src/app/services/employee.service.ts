@@ -1,4 +1,4 @@
-import { share, tap, shareReplay } from 'rxjs';
+import { share, tap, shareReplay, Subject, merge, scan, take, map } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { IEmployee } from './../interfaces/employee.interface';
 import { Injectable, OnInit } from '@angular/core';
@@ -36,20 +36,30 @@ export class EmployeeService implements OnInit {
     // shareReplay(1)
   );
 
+  private insertEmployeeSubject = new Subject();
+  insertEmployeeAction$ = this.insertEmployeeSubject.asObservable();
+
+  EmployeeWithAdd$ = merge(this.data$, this.insertEmployeeAction$).pipe(
+    tap((d) => console.log(d, 'res')),
+    scan((acc: IEmployee[], value: any) => [...acc, value]),
+    shareReplay(1)
+  );
+
   constructor(private http: HttpClient) {}
   ngOnInit(): void {}
 
-  add(newEm: IEmployee[]): Promise<unknown> {
-    let newVal = newEm[0];
-    return new Promise((resolver, reject) => {
-      // add new user
-      let data = this.ELEMENT_DATA;
-      newVal.ID = data.length + 1;
-      data.push(newVal);
-      this.ELEMENT_DATA = data;
-      resolver(newVal);
-      reject('somthing is wrong');
-    });
+  add(newEm: IEmployee[]) {
+    // let newVal = newEm[0];
+    // return new Promise((resolver, reject) => {
+    //   // add new user
+    //   let data = this.ELEMENT_DATA;
+    //   newVal.ID = data.length + 1;
+    //   data.push(newVal);
+    //   this.ELEMENT_DATA = data;
+    //   resolver(newVal);
+    //   reject('somthing is wrong');
+    // });
+    this.insertEmployeeSubject.next(newEm[0]);
   }
 
   update(userData: any[]) {

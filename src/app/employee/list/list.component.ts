@@ -21,7 +21,7 @@ export class ListComponent implements OnInit {
   ];
 
   // dataSource!: MatTableDataSource<IEmployee>;
-  data$ = this.EmService.data$.pipe(shareReplay(1));
+  data$ = this.EmService.EmployeeWithAdd$.pipe(shareReplay(1));
   constructor(private EmService: EmployeeService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
@@ -41,13 +41,13 @@ export class ListComponent implements OnInit {
     // dialog closed
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.EmService.add(result)
-          .then((res) => {
-            this.feedTable();
-          })
-          .catch((err) => {
-            console.log(err, 'err');
-          });
+        this.EmService.add(result);
+        // .then((res) => {
+        //   this.feedTable();
+        // })
+        // .catch((err) => {
+        //   console.log(err, 'err');
+        // });
       }
     });
   }
