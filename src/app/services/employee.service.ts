@@ -1,10 +1,12 @@
+import { share, tap, shareReplay } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 import { IEmployee } from './../interfaces/employee.interface';
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
-export class EmployeeService {
+export class EmployeeService implements OnInit {
   ELEMENT_DATA: IEmployee[] = [
     {
       ID: 1,
@@ -29,9 +31,15 @@ export class EmployeeService {
     },
   ];
 
-  constructor() {}
+  data$ = this.http.get<IEmployee[]>('/assets/mock/data.json').pipe(
+    tap((d) => console.log(d, 'd'))
+    // shareReplay(1)
+  );
 
-  add(newEm: IEmployee[]) {
+  constructor(private http: HttpClient) {}
+  ngOnInit(): void {}
+
+  add(newEm: IEmployee[]): Promise<unknown> {
     let newVal = newEm[0];
     return new Promise((resolver, reject) => {
       // add new user

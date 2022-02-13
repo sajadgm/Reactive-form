@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AddComponent } from '../add/add.component';
 import { MatTableDataSource } from '@angular/material/table';
+import { map, take, tap, share, shareReplay } from 'rxjs';
 
 @Component({
   selector: 'app-list',
@@ -19,19 +20,20 @@ export class ListComponent implements OnInit {
     'Action',
   ];
 
-  dataSource!: MatTableDataSource<IEmployee>;
-
+  // dataSource!: MatTableDataSource<IEmployee>;
+  data$ = this.EmService.data$.pipe(shareReplay(1));
   constructor(private EmService: EmployeeService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.feedTable();
+    // console.log(this.EmService.data$);
+    // this.EmService.data$.pipe(tap((d) => console.log(d)));
+    // this.feedTable();
   }
 
   feedTable(): void {
-    this.dataSource = new MatTableDataSource<IEmployee>(
-      this.EmService.ELEMENT_DATA
-    );
-    //  this.dataSource = this.EmService.ELEMENT_DATA;
+    // this.dataSource = new MatTableDataSource<IEmployee>(
+    //   this.EmService.ELEMENT_DATA
+    // );
   }
 
   addButton(): void {
