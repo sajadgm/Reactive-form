@@ -45,13 +45,14 @@ export class ListComponent implements OnInit {
     //dialog closed
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.EmService.update(result);
+        this.EmService.update(result[0]);
       }
     });
   }
 
-  removeButton(row: number): void {
-    // this.EmService.remove(row).then((res) => {
+  removeButton(Id: number): void {
+    this.EmService.remove(Id);
+    // .then((res) => {
     //   this.feedTable();
     // });
   }
