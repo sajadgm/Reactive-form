@@ -16,72 +16,25 @@ import { Injectable, OnInit } from '@angular/core';
   providedIn: 'root',
 })
 export class EmployeeService implements OnInit {
-  ELEMENT_DATA: IEmployee[] = [
-    {
-      ID: 1,
-      LastName: 'rezaei',
-      Job: 'employer',
-      HireDate: '12/23/2021',
-      Role: 'manager',
-    },
-    {
-      ID: 2,
-      LastName: 'ghafori',
-      Job: 'employer',
-      HireDate: '12/23/2021',
-      Role: 'guest',
-    },
-    {
-      ID: 3,
-      LastName: 'jafari',
-      Job: 'employer',
-      HireDate: '12/23/2021',
-      Role: 'customer',
-    },
-  ];
+  data$ = this.http
+    .get<IEmployee[]>('/assets/mock/data.json')
+    .pipe(shareReplay(1));
 
-  data$ = this.http.get<IEmployee[]>('/assets/mock/data.json').pipe(
-    // tap((d) => console.log(d, 'd'))
-    shareReplay(1)
-  );
-
-  //add employee subject
-
-  //add employee subject
+  //add employee
   private insertEmployeeSubject = new Subject<IEmployee>();
   insertEmployeeAction$ = this.insertEmployeeSubject.asObservable();
-
   EmployeeWithAdd$: Observable<IEmployee[]> = merge(
     this.data$,
     this.insertEmployeeAction$
   ).pipe(
-    // tap((d) => console.log(d, 'add')),
-    scan(
-      (acc: IEmployee[], value: any) => [...acc, value]
-      // {
-      //   if (value.ID) {
-      //     var x = acc.filter((i) => i.ID !== value.ID);
-      //     x.push(value);
-      //     acc = x;
-      //     console.log([...acc], 'res');
-
-      //     [...acc];
-      //   } else {
-      //     console.log(value, 'else');
-      //     // value.ID =
-
-      //     [...acc, value];
-      //   }
-      // }
-    ),
+    scan((acc: IEmployee[], value: any) => [...acc, value]),
     shareReplay(1)
   );
-
   ////////////////
+
   //update employee
   private updateEmployeeSubject = new Subject<IEmployee>();
   updateEmployeeAction$ = this.updateEmployeeSubject.asObservable();
-
   EmployeeWithUpdate$: Observable<IEmployee[]> = combineLatest([
     this.EmployeeWithAdd$,
     this.updateEmployeeAction$,
@@ -90,24 +43,21 @@ export class EmployeeService implements OnInit {
       var x = allEmployees.filter((i) => i.ID !== selectedEmployees.ID);
       x.push(selectedEmployees);
       return x;
-    }),
-    tap((log) => console.log('selectedProduct', log))
+    })
   );
-
   ////////////////
-  private EmployeeSubject = new Subject<IEmployee>();
-  EmployeeAction$ = this.EmployeeSubject.asObservable();
 
+  // data for shown //automaticily update data when add or update done
   Employees$: Observable<IEmployee[]> = merge(
     this.EmployeeWithAdd$,
     this.EmployeeWithUpdate$
-  );
+  ).pipe(tap((d) => console.log(d)));
 
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {}
 
-  add(newEm: IEmployee[]) {
+  add(newEm: IEmployee) {
     // let newVal = newEm[0];
     // return new Promise((resolver, reject) => {
     //   // add new user
@@ -118,7 +68,14 @@ export class EmployeeService implements OnInit {
     //   resolver(newVal);
     //   reject('somthing is wrong');
     // });
-    this.insertEmployeeSubject.next(newEm[0]);
+    //data length for find new user ID
+    // let newUserId;
+    let x = this.Employees$.subscribe((d) => {
+      newEm.ID = d.length + 1;
+    });
+    x.unsubscribe();
+
+    this.insertEmployeeSubject.next(newEm);
   }
 
   update(userData: IEmployee[]) {
@@ -148,13 +105,13 @@ export class EmployeeService implements OnInit {
   }
 
   remove(row: number) {
-    return new Promise((resolver, reject) => {
-      // add new user
-      let data = this.ELEMENT_DATA;
-      data = data.filter((item) => item.ID !== row);
-      this.ELEMENT_DATA = data;
-      resolver(data);
-      reject('somthing is wrong');
-    });
+    // return new Promise((resolver, reject) => {
+    //   // add new user
+    //   let data = this.ELEMENT_DATA;
+    //   data = data.filter((item) => item.ID !== row);
+    //   this.ELEMENT_DATA = data;
+    //   resolver(data);
+    //   reject('somthing is wrong');
+    // });
   }
 }

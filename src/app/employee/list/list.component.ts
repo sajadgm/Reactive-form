@@ -3,8 +3,6 @@ import { EmployeeService } from './../../services/employee.service';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AddComponent } from '../add/add.component';
-import { MatTableDataSource } from '@angular/material/table';
-import { map, take, tap, share, shareReplay } from 'rxjs';
 
 @Component({
   selector: 'app-list',
@@ -20,21 +18,11 @@ export class ListComponent implements OnInit {
     'Action',
   ];
 
-  // dataSource!: MatTableDataSource<IEmployee>;
-
   constructor(private EmService: EmployeeService, private dialog: MatDialog) {}
 
-  data!: IEmployee[];
+  data$ = this.EmService.Employees$;
 
-  ngOnInit(): void {
-    // console.log(this.EmService.data$);
-    // this.EmService.data$.pipe(tap((d) => console.log(d)));
-    // this.feedTable();
-
-    this.EmService.Employees$?.subscribe((value) => {
-      this.data = value;
-    });
-  }
+  ngOnInit(): void {}
 
   feedTable(): void {
     // this.dataSource = new MatTableDataSource<IEmployee>(
@@ -47,13 +35,7 @@ export class ListComponent implements OnInit {
     // dialog closed
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.EmService.add(result);
-        // .then((res) => {
-        //   this.feedTable();
-        // })
-        // .catch((err) => {
-        //   console.log(err, 'err');
-        // });
+        this.EmService.add(result[0]);
       }
     });
   }
@@ -64,20 +46,13 @@ export class ListComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.EmService.update(result);
-        // .then((res) => {
-        //   this.feedTable();
-        // })
-        // .catch((err) => {
-        //   console.log(err, 'err');
-        // });
       }
     });
   }
 
   removeButton(row: number): void {
-    this.EmService.remove(row).then((res) => {
-      console.log(res);
-      this.feedTable();
-    });
+    // this.EmService.remove(row).then((res) => {
+    //   this.feedTable();
+    // });
   }
 }
