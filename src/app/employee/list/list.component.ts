@@ -21,13 +21,19 @@ export class ListComponent implements OnInit {
   ];
 
   // dataSource!: MatTableDataSource<IEmployee>;
-  data$ = this.EmService.EmployeeWithAdd$.pipe(shareReplay(1));
+
   constructor(private EmService: EmployeeService, private dialog: MatDialog) {}
+
+  data!: IEmployee[];
 
   ngOnInit(): void {
     // console.log(this.EmService.data$);
     // this.EmService.data$.pipe(tap((d) => console.log(d)));
     // this.feedTable();
+
+    this.EmService.Employees$?.subscribe((value) => {
+      this.data = value;
+    });
   }
 
   feedTable(): void {
@@ -57,13 +63,13 @@ export class ListComponent implements OnInit {
     //dialog closed
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.EmService.update(result)
-          .then((res) => {
-            this.feedTable();
-          })
-          .catch((err) => {
-            console.log(err, 'err');
-          });
+        this.EmService.update(result);
+        // .then((res) => {
+        //   this.feedTable();
+        // })
+        // .catch((err) => {
+        //   console.log(err, 'err');
+        // });
       }
     });
   }
