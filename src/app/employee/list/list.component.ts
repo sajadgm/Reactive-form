@@ -1,3 +1,4 @@
+import { tap } from 'rxjs';
 import { IEmployee } from './../../interfaces/employee.interface';
 import { EmployeeService } from './../../services/employee.service';
 import { Component, OnInit } from '@angular/core';
@@ -18,11 +19,24 @@ export class ListComponent implements OnInit {
     'Action',
   ];
 
+  data: IEmployee[] = [];
+
   constructor(private EmService: EmployeeService, private dialog: MatDialog) {}
 
   data$ = this.EmService.Employees$;
+  // public get data$() {
+  //   return this._data$;
+  // }
+  // public set data$(value) {
+  //   this._data$ = value;
+  // }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // this.EmService.Employees$.subscribe((res) => {
+    //   console.log(res);
+    //   this.data = res;
+    // });
+  }
 
   feedTable(): void {
     // this.dataSource = new MatTableDataSource<IEmployee>(
